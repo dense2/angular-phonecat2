@@ -1,3 +1,6 @@
+'use strict';
+
+// Register 'phoneDetail' component, along with its associated controller and template
 angular.
     module('phoneDetail').
     component('phoneDetail', {
@@ -6,11 +9,18 @@ angular.
             function PhoneDetailController($http, $routeParams) {
                 var self = this;
 
-                $http.get('phones/' + $routeParams.phoneId +
-                    '.json').then(function(response) {
-                    self.phone = response.data;
-                });
+                self.setImage = function setImage(imageUrl) {
+                    self.mainImageUrl = imageUrl;
+                };
 
+                self.onDblclick = function onDblclick(imageUrl) {
+                    alert('You double-clicked  image: ' + imageUrl);
+                };
+
+                $http.get('phones/' + $routeParams.phoneId + '.json').then(function(response) {
+                    self.phone = response.data;
+                    self.setImage(self.phone.images[0]);
+                });
             }
         ]
 });
